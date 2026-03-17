@@ -1,0 +1,86 @@
+{% include 'header.html' %} {% include 'sidebar.html' %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent"
+          >
+            <h4 class="mb-sm-0">Datatables</h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="javascript: void(0);">Tables</a>
+                </li>
+                 <li class="breadcrumb-item active">Room Allocation</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">Rooms Allocation</h5>
+            </div>
+            <div class="card-body">
+              <table
+                id="example"
+                class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                style="width: 100%"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Hostel</th>
+                    <th>Room No</th>
+                    <th>Room Type</th>
+                    <th>Capacity</th>
+                    <th>Floor</th>
+                    <th>Student Assigned</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for x in allocations %}
+                  <tr>
+                    <td>{{ x.room.id }}</td>
+                    <td>{{ x.room.hostel_name }}</td>
+                    <td>{{ x.room.room_number }}</td>
+                    <td>{{ x.room.room_type|title }}</td>
+                    <td>{{ x.room.capacity }}</td>
+                    <td>{{ x.room.floor }}</td>
+                    <td>
+                      {% if x.student %}
+                      {{x.student.name}} 
+                      {% else %}
+                      <span class="text-muted">No student assigned</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+
+                  {% empty %}
+                  <tr>
+                    <td colspan="8" class="text-center">No Books found</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--end col-->
+      </div>
+      <!--end row-->
+    </div>
+    <!-- container-fluid -->
+  </div>
+  <!-- End Page-content -->
+</div>

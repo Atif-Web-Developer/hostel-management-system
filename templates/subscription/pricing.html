@@ -1,0 +1,117 @@
+{% include 'header.html' %}
+{% include 'sidebar.html' %}
+
+<style>
+    /* Dashboard ke mutabiq thori styling */
+    .pricing-card {
+        transition: transform 0.3s;
+        border: 1px solid #e0e0e0;
+    }
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .plan-price {
+        font-size: 30px;
+        font-weight: 700;
+        color: #333;
+    }
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+    }
+    .feature-list li {
+        padding: 8px 0;
+        color: #666;
+    }
+</style>
+
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between bg-light p-3 rounded">
+                        <h4 class="mb-0">Select Subscription Plan</h4>
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Subscriptions</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                
+                <div class="col-md-4">
+                    <div class="card pricing-card shadow-sm border-0 text-center p-4">
+                        <div class="card-body">
+                            <h5 class="text-muted text-uppercase">Basic Plan</h5>
+                            <div class="plan-price my-3">₨ 50,000 <span style="font-size: 14px; font-weight: normal;">/ month</span></div>
+                            
+                            <ul class="feature-list">
+                                <li><i class="fa fa-check text-success me-2"></i> Standard Room</li>
+                                <li><i class="fa fa-check text-success me-2"></i> Basic Support</li>
+                                <li><i class="fa fa-check text-success me-2"></i> Mess Included</li>
+                            </ul>
+
+                            <a href="{% url 'create_subscription' 'price_1T7AJJRuDTNxyffVC4bZyHCc' %}" class="btn btn-outline-primary btn-lg w-100 mt-3">
+                                Choose Basic
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card pricing-card shadow-sm border-0 text-center p-4 border-primary" style="border-width: 2px !important;">
+                        <div class="card-body">
+                            <div class="badge bg-primary mb-2">MOST POPULAR</div>
+                            <h5 class="text-primary text-uppercase">Premium Plan</h5>
+                            <div class="plan-price my-3">₨ 100,000 <span style="font-size: 14px; font-weight: normal;">/ month</span></div>
+                            
+                            <ul class="feature-list">
+                                <li><i class="fa fa-check text-success me-2"></i> Luxury Suite</li>
+                                <li><i class="fa fa-check text-success me-2"></i> 24/7 Priority Support</li>
+                                <li><i class="fa fa-check text-success me-2"></i> All Pro Features</li>
+                            </ul>
+
+                            <a href="{% url 'create_subscription' 'price_1T6q8uRuDTNxyffVbDVhv3dY' %}" class="btn btn-primary btn-lg w-100 mt-3 shadow">
+                                Subscribe Premium
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+    </div>
+
+    {% include 'footer.html' %}
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+    $("#add_student").click(function(e){
+        e.preventDefault();
+        var Formdata = $("#form_data").serialize();
+        $.ajax({
+            url: "{% url 'student' %}",
+            type: "POST",
+            data: Formdata,
+            success: function(response){
+                if(response.status=="sucess"){
+                    
+                }else{
+                    alert(response.message)
+                }
+                console.log(response);
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+    });
+});
+</script>

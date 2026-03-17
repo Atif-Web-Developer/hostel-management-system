@@ -1,0 +1,117 @@
+{% include 'header.html' %} {% include 'sidebar.html' %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent"
+          >
+            <h4 class="mb-sm-0">Datatables</h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="javascript: void(0);">Tables</a>
+                </li>
+                <li class="breadcrumb-item active">Datatables</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">Complaints Record</h5>
+            </div>
+            <div class="card-body">
+              <table
+                id="example"
+                class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                style="width: 100%"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Room</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Category/Profession</th>
+                    <th>status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for x in data %}
+                  <tr>
+                    <td>{{ x.id }}</td>
+                    <td>{{ x.student.name }}</td>
+                    <td>{{ x.room_no.room_number }}</td>
+                    <td>{{ x.description|truncatewords:5|default:" NO description available"}}</td>
+                    
+                    <td>
+                      {% if x.complaint_img %}
+                      <img
+                        src="{{ x.complaint_img.url }}"
+                        alt="{{ x.name }}"
+                        style="
+                          width: 100px;
+                          height: 100px;
+                          object-fit: cover;
+                          border-radius: 5px;
+                        "
+                      />
+
+                      {% else %} No Image {% endif %}
+                    </td>
+                    <td>{{x.category.name}}({{x.category.email}})({{x.category.profession}})</td>
+                    <td>{{x.status}}</td>
+                    <td>
+                      <div class="hstack gap-3 flex-wrap">
+                        <a
+                          href="javascript:void(0);"
+                          class="link-success fs-15"
+                          id="edit"
+                          data-edit="{{x.id}}"
+                          ><i class="ri-edit-2-line"></i
+                        ></a>
+                        <a
+                          href="javascript:void(0);"
+                          class="delete_book btn btn-danger btn-sm"
+                          data-id="{{ x.id }}"
+                        >
+                          Delete
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="8" class="text-center">No Complaints found</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--end col-->
+      </div>
+      <!--end row-->
+    </div>
+    <!-- container-fluid -->
+  </div>
+  <!-- End Page-content -->
+</div>
+
+
+
+
+

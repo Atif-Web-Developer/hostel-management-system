@@ -1,0 +1,443 @@
+{% include 'header.html' %} {% include 'sidebar.html' %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- start page title -->
+      <div class="row">
+        <div class="col-12">
+          <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between bg-galaxy-transparent"
+          >
+            <h4 class="mb-sm-0">Datatables</h4>
+
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item">
+                  <a href="javascript: void(0);">Tables</a>
+                </li>
+                <li class="breadcrumb-item active">Datatables</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end page title -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title mb-0">ComplaintCategory Record</h5>
+            </div>
+            <div class="card-body">
+              <table
+                id="example"
+                class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                style="width: 100%"
+              >
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Description</th>
+                    <th>Profession</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for x in data %}
+                  <tr>
+                    <td>{{ x.id }}</td>
+                    <td>{{ x.name }}</td>
+                    <td>{{ x.email }}</td>
+
+                    <td>{{ x.description }}</td>
+                    <td>{{x.profession}}</td>
+                    <td>
+                      {% if x.picture %}
+                      <img
+                        src="{{ x.picture.url }}"
+                        alt="{{ x.name }}"
+                        style="
+                          width: 100px;
+                          height: 100px;
+                          object-fit: cover;
+                          border-radius: 5px;
+                        "
+                      />
+
+                      {% else %} No Image {% endif %}
+                    </td>
+
+                    <td>
+                      <div class="d-flex gap-2 justify-content-center">
+                        <a
+                          href="javascript:void(0);"
+                          class="btn btn-sm btn-soft-info edit-category-btn"
+                          data-edit="{{ x.id }}"
+                          title="Edit Category"
+                        >
+                          <i class="ri-pencil-fill fs-16"></i>
+                        </a>
+
+                        <a
+                          href="javascript:void(0);"
+                          class="btn btn-sm btn-soft-danger delete-category-btn"
+                          data-id="{{ x.id }}"
+                          title="Delete Category"
+                        >
+                          <i class="ri-delete-bin-fill fs-16"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="8" class="text-center">No Complaints found</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!--end col-->
+      </div>
+      <!--end row-->
+    </div>
+    <!-- container-fluid -->
+  </div>
+  <!-- End Page-content -->
+</div>
+
+<div class="modal fade" id="categoryModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-primary py-3">
+        <h5 class="modal-title text-white fw-bold" id="form_title">
+          <i class="ri-add-circle-line me-2"></i>EDIT Category
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body p-4">
+        <form id="edit_category_form" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="edit_id" id="edit_id" />
+
+          <div class="row g-4">
+            <div class="col-md-7">
+              <div class="mb-3">
+                <label class="form-label fw-semibold text-muted"
+                  >Category Name</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0"
+                    ><i class="ri-price-tag-3-line text-primary"></i
+                  ></span>
+                  <input
+                    type="text"
+                    id="edit_name"
+                    name="edit_name"
+                    class="form-control border-start-0"
+                    placeholder="e.g. Electrical Maintenance"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold text-muted"
+                  >Profession</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0"
+                    ><i class="ri-briefcase-line text-primary"></i
+                  ></span>
+                  <select
+                    name="edit_profession"
+                    id="profession"
+                    class="form-select border-start-0"
+                    required
+                  >
+                    <option value="">-- Select Profession --</option>
+                    <option value="Electrician">Electrician</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Carpenter">Carpenter</option>
+                    <option value="Mason">Mason (Mistry)</option>
+                    <option value="Painter">Painter</option>
+                    <option value="AC Technician">AC Technician</option>
+                    <option value="Gardener">Gardener</option>
+                    <option value="Cleaner">Janitor/Cleaner</option>
+                    <option value="Welder">Welder</option>
+                    <option value="IT Specialist">IT Specialist</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold text-muted"
+                  >Technician Email</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0"
+                    ><i class="ri-mail-line text-primary"></i
+                  ></span>
+                  <input
+                    type="email"
+                    name="edit_email"
+                    id="edit_email"
+                    class="form-control border-start-0"
+                    placeholder="technician@email.com"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-0">
+                <label class="form-label fw-semibold text-muted"
+                  >Description</label
+                >
+                <textarea
+                  name="edit_description"
+                  id="edit_description"
+                  class="form-control bg-light"
+                  rows="3"
+                  placeholder="Brief notes about this category..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="col-md-5 border-start">
+              <label class="form-label fw-semibold text-muted"
+                >Category Icon</label
+              >
+              <div
+                id="image_container"
+                class="border rounded-3 bg-light mb-3"
+                style="
+                  height: 180px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  border-style: dashed !important;
+                  border-width: 2px !important;
+                  border-color: #dee2e6 !important;
+                "
+              >
+                <i
+                  id="default_icon"
+                  class="ri-image-add-line display-4 text-muted"
+                ></i>
+                <img
+                  id="preview_img"
+                  src="#"
+                  style="
+                    display: none;
+                    max-width: 90%;
+                    max-height: 90%;
+                    border-radius: 8px;
+                    object-fit: contain;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                  "
+                />
+
+                <span class="text-muted small mt-2" id="upload_text"
+                  >Click below to upload</span
+                >
+              </div>
+              <input
+                type="file"
+                name="edit_picture"
+                id="edit_image_field"
+                class="form-control form-control-sm"
+              />
+              <p class="text-muted x-small mt-2" style="font-size: 11px">
+                Recommended size: 256x256 px (PNG/JPG)
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+    <button type="submit" form="edit_category_form" class="btn btn-primary">
+        Update Category
+    </button>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  $(document).ready(function () {
+    $(document).on("click", ".delete-category-btn", function () {
+      var delete_id = $(this).data("id");
+      var row = $(this).closest("tr"); // Jis row ko delete karna hai usay select kar liya
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Agar user ne 'Yes' dabaya, to AJAX chalao
+          $.ajax({
+            url: "{% url 'delete_category' %}", // Apne URL ka naam check kar lein
+            method: "POST",
+            data: {
+              id: delete_id,
+              csrfmiddlewaretoken: "{{ csrf_token }}", // CSRF token lazmi hai POST ke liye
+            },
+            success: function (response) {
+              if (response.status === "success") {
+                Swal.fire("Deleted!", response.message, "success");
+
+                // Row ko fade karke khatam kar do (Real-time effect)
+                row.fadeOut(2000, function () {
+                  $(this).remove();
+                });
+              } else {
+                Swal.fire("Error!", response.message, "error");
+              }
+            },
+            error: function () {
+              Swal.fire(
+                "Error!",
+                "Something went wrong on the server.",
+                "error",
+              );
+            },
+          });
+        }
+      });
+    });
+  });
+</script>
+<script>
+  $(document).on("click", ".edit-category-btn", function () {
+    var data_edit = $(this).data("edit");
+
+    $.ajax({
+      url: "{% url 'get_category_details' %}", // Naya URL banana parega
+      method: "GET",
+      data: { id: data_edit },
+      success: function (response) {
+        if (response.status === "success") {
+          $("#edit_id").val(response.id);
+          $("#edit_name").val(response.name);
+          // $("#").val(response.profession)
+          $("#edit_email").val(response.email);
+          $("#edit_description").val(response.description);
+          // Profession dropdown ke har 'option' par bari bari jao
+
+          
+
+          
+          var backendVal = response.profession; // Backend se aane wali value
+
+        // Dropdown ke har option ko check karo
+        $("#profession option").each(function() {
+            var optionVal = $(this).val();   // e.g. 'Mason'
+            var optionText = $(this).text(); // e.g. 'Mason (Mistry)'
+
+            // Agar backend ki value key se ya text se match kar jaye
+            if (optionVal == backendVal || optionText == backendVal) {
+                $(this).prop('selected', true);
+            }
+        });
+
+
+
+          if (response.picture) {
+            $("#default_icon").hide();
+            $("#upload_text").hide();
+            $("#preview_img").attr("src", response.picture).show();
+          } else {
+            $("#preview_img").hide();
+            $("#default_icon").show();
+            $("#upload_text").show();
+          }
+
+          $("#categoryModal").modal("show");
+        }
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $(document).on("change", "#edit_image_field", function (e) {
+      // Sahi tareeqa files uthanay ka
+      var file = this.files[0];
+
+      if (file) {
+        // 1. FileReader ka naya object banana lazmi hai
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          // Preview dikhao
+          $("#default_icon").hide();
+          $("#upload_text").hide();
+          $("#preview_img").attr("src", e.target.result).fadeIn(300);
+        };
+
+        // 2. File ko read karna shuru karo
+        reader.readAsDataURL(file);
+      }
+    });
+    
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    // Form ID match honi chahiye: edit_category_form
+    $(document).on("submit", "#edit_category_form", function(e) {
+      e.preventDefault(); // Refresh rokne ke liye
+      
+      console.log("Form submit ho raha hai..."); // Check karne ke liye
+
+      var form_data = new FormData(this); 
+
+      $.ajax({
+        url: "{% url 'update_category' %}", 
+        method: "POST",
+        data: form_data,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            if(response.status === "success") {
+                alert("Zabardast! Data update ho gaya.");
+                location.reload(); 
+            } else {
+                alert("Error: " + response.message);
+            }
+        },
+        error: function(xhr) {
+            console.log(xhr.responseText);
+            alert("AJAX fail ho gayi!");
+        }
+      });
+    });
+  });
+</script>

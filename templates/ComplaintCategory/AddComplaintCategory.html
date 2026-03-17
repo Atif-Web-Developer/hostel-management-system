@@ -1,0 +1,253 @@
+{% include 'header.html' %} {% include 'sidebar.html' %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <div class="row mb-4">
+        <div class="col-12">
+          <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between bg-light p-3 rounded shadow-sm"
+          >
+            <h4 class="mb-0 text-primary">
+              <i class="ri-stack-line me-2"></i>Add Complaint Category
+            </h4>
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="javascript: void(0);">Dashboard</a>
+              </li>
+              <li class="breadcrumb-item active">Add Category</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="card shadow-lg border-0">
+            <div class="card-header text-white bg-primary">
+              <h5 class="mb-0 text-center text-white">
+                <i class="ri-add-circle-line me-2"></i>Category Information
+              </h5>
+            </div>
+
+            <div class="card-body p-4">
+              <form
+                method="post"
+                id="category_form"
+                enctype="multipart/form-data"
+              >
+                {% csrf_token %}
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="form-label fw-bold"
+                        > Name <span class="text-danger">*</span></label
+                      >
+                      <div class="input-group">
+                        <span class="input-group-text"
+                          ><i class="ri-Price-tag-3-line"></i
+                        ></span>
+                        <input
+                          type="text"
+                          name="name"
+                          class="form-control"
+                          placeholder="e.g.Atif,Talha"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label fw-bold"
+                        >Relevant Profession
+                        <span class="text-danger">*</span></label
+                      >
+                      <div class="input-group">
+                        <span class="input-group-text"
+                          ><i class="ri-briefcase-line"></i
+                        ></span>
+                        <select name="profession" class="form-select" required>
+                          <option value="">-- Select Profession --</option>
+                          <option value="Electrician">Electrician</option>
+                          <option value="Plumber">Plumber</option>
+                          <option value="Carpenter">Carpenter</option>
+                          <option value="Mason">Mason (Mistry)</option>
+                          <option value="Painter">Painter</option>
+                          <option value="AC Technician">AC Technician</option>
+                          <option value="Gardener">Gardener</option>
+                          <option value="Cleaner">Janitor/Cleaner</option>
+                          <option value="Welder">Welder</option>
+                          <option value="IT Specialist">IT Specialist</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label fw-bold">Technician Email</label>
+                      <div class="input-group">
+                        <span class="input-group-text"
+                          ><i class="ri-mail-line"></i
+                        ></span>
+                        <input
+                          type="email"
+                          name="email"
+                          class="form-control"
+                          placeholder="technician@example.com"
+                        />
+                      </div>
+                      <small class="text-muted"
+                        >Notifications will be sent to this address.</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 border-start">
+                    <div class="mb-3">
+                      <label class="form-label fw-bold">Description</label>
+                      <textarea
+                        name="description"
+                        class="form-control"
+                        rows="2"
+                        placeholder="Briefly describe this category..."
+                      ></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                      <label class="form-label fw-bold"
+                        >Category Icon / Picture</label
+                      >
+                      <div
+                        id="image_container"
+                        class="text-center p-2 border rounded bg-light mb-2"
+                        style="
+                          height: 120px;
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          overflow: hidden;
+                        "
+                      >
+                        <i
+                          id="default_icon"
+                          class="ri-image-add-line display-4 text-muted"
+                        ></i>
+                        <img
+                          id="preview_img"
+                          src="#"
+                          alt="Preview"
+                          style="
+                            display: none;
+                            max-width: 100%;
+                            max-height: 100%;
+                            border-radius: 5px;
+                            object-fit: contain;
+                          "
+                        />
+                      </div>
+                      <input
+                        type="file"
+                        name="picture"
+                        class="form-control form-control-sm"
+                        accept="image/*"
+                        id="image_field"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="col-12 border-top pt-3">
+                    <div class="d-flex justify-content-end gap-2">
+                      <button type="reset" class="btn btn-soft-secondary px-4">
+                        Reset
+                      </button>
+                      <button
+                        type="submit"
+                        id="add_category_btn"
+                        class="btn btn-primary px-5 shadow"
+                      >
+                        <i class="ri-save-line me-1"></i> Save Category
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include 'footer.html' %}
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  $(document).ready(function () {
+    $(document).on("submit", "#category_form", function (e) {
+      e.preventDefault();
+      var form = $(this)[0];
+      var form_data = new FormData(form);
+      $.ajax({
+        url: "{% url 'insertComplaintCategory' %}",
+        method: "POST",
+        data: form_data,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          if (response.status === "success") {
+            Swal.fire({
+              title: "Success!",
+              text: response.message,
+              icon: "success",
+              timer: 4000,
+              showConfirmButton: false,
+            });
+
+            // Reset form
+            $("#category_form")[0].reset();
+            $("#preview_img").hide().attr("src", "");
+            $("#default_icon").show();
+          } else {
+            // Error popup
+            Swal.fire({
+              title: "Error!",
+              text: response.message,
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+          }
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    });
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    $(document).on("change", "#image_field", function (e) {
+      // 1. Check karein ke file select hui hai ya nahi
+      var file = e.target.files[0];
+
+      if (file) {
+        const reader = new FileReader();
+
+        // 2. Jab file read ho jaye to image show karo
+        reader.onload = function (event) {
+          $("#default_icon").hide();
+          $("#preview_img").attr("src", event.target.result).show(); // show() ke sath brackets lagayein
+        };
+
+        // 3. File parhna shuru karein
+        reader.readAsDataURL(file);
+      }
+    });
+  });
+</script>

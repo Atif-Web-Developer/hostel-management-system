@@ -1,0 +1,384 @@
+<div class="app-menu navbar-menu">
+  <!-- LOGO -->
+  <div class="navbar-brand-box">
+    <!-- Dark Logo-->
+    <a href="index.html" class="logo logo-dark">
+      <span class="logo-sm">
+        <img src="../static/assets/images/logo-sm.png" alt="" height="22" />
+      </span>
+      <span class="logo-lg">
+        <img src="../static/assets/images/logo-dark.png" alt="" height="17" />
+      </span>
+    </a>
+    <!-- Light Logo-->
+    <a href="index.html" class="logo logo-light">
+      <span class="logo-sm">
+        <img src="../static/assets/images/logo-sm.png" alt="" height="22" />
+      </span>
+      <span class="logo-lg">
+        <img src="../static/assets/images/logo-light.png" alt="" height="17" />
+      </span>
+    </a>
+    <button
+      type="button"
+      class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+      id="vertical-hover"
+    >
+      <i class="ri-record-circle-line"></i>
+    </button>
+  </div>
+
+  <div class="dropdown sidebar-user m-1 rounded">
+    <button
+      type="button"
+      class="btn material-shadow-none"
+      id="page-header-user-dropdown"
+      data-bs-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      <span class="d-flex align-items-center gap-2">
+        <img
+          class="rounded header-profile-user"
+          src="../static/assets/images/users/avatar-1.jpg"
+          alt="Header Avatar"
+        />
+        <span class="text-start">
+          <span class="d-block fw-medium sidebar-user-name-text"
+            >Anna Adame</span
+          >
+          <span class="d-block fs-14 sidebar-user-name-sub-text"
+            ><i class="ri ri-circle-fill fs-10 text-success align-baseline"></i>
+            <span class="align-middle">Online</span></span
+          >
+        </span>
+      </span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-end">
+      <!-- item-->
+      <h6 class="dropdown-header">Welcome Anna!</h6>
+      <a class="dropdown-item" href="pages-profile.html"
+        ><i
+          class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"
+        ></i>
+        <span class="align-middle">Profile</span></a
+      >
+      <a class="dropdown-item" href="apps-chat.html"
+        ><i
+          class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"
+        ></i>
+        <span class="align-middle">Messages</span></a
+      >
+      <a class="dropdown-item" href="apps-tasks-kanban.html"
+        ><i
+          class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"
+        ></i>
+        <span class="align-middle">Taskboard</span></a
+      >
+      <a class="dropdown-item" href="pages-faqs.html"
+        ><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
+        <span class="align-middle">Help</span></a
+      >
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="pages-profile.html"
+        ><i class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i>
+        <span class="align-middle">Balance : <b>$5971.67</b></span></a
+      >
+      <a class="dropdown-item" href="pages-profile-settings.html"
+        ><span class="badge bg-success-subtle text-success mt-1 float-end"
+          >New</span
+        ><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
+        <span class="align-middle">Settings</span></a
+      >
+      <a class="dropdown-item" href="auth-lockscreen-basic.html"
+        ><i class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i>
+        <span class="align-middle">Lock screen</span></a
+      >
+      <a class="dropdown-item" href="auth-logout-basic.html"
+        ><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+        <span class="align-middle" data-key="t-logout">Logout</span></a
+      >
+    </div>
+  </div>
+  <div id="scrollbar">
+    <div class="container-fluid">
+      <div id="two-column-menu"></div>
+      <ul class="navbar-nav" id="navbar-nav">
+        <!-- Dashboard Menu -->
+        <li class="nav-item">
+          <a class="nav-link menu-link" href="{% url 'index_file' %}">
+            <i class="ri-dashboard-2-line"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            role="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarStudents"
+            aria-expanded="{% if request.path == '/student/' or request.path == '/student_view/' %}true{% else %}false{% endif %}"
+          >
+            <i class="ri-user-line"></i>
+            <span>Students</span>
+          </a>
+
+          <div
+            class="collapse menu-dropdown {% if request.path == '/student/' or request.path == '/student_view/' %} show {% endif %}"
+            id="sidebarStudents"
+          >
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a href="{% url 'student' %}" class="nav-link">Add Student</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'student_view' %}" class="nav-link"
+                  >View Students</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            role="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarBooks"
+            aria-expanded=""
+          >
+            <i class="ri-book-line"></i>
+            <span>Books</span>
+          </a>
+
+          <div class="collapse menu-dropdown" id="sidebarBooks">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a href="{% url 'book_add' %}" class="nav-link">Add Book</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'View_Book' %}" class="nav-link">View Books</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            role="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarRooms"
+            aria-expanded="false"
+          >
+            <i class="ri-hotel-line"></i>
+            <!-- icon change for room -->
+            <span>Rooms</span>
+          </a>
+
+          <div class="collapse menu-dropdown" id="sidebarRooms">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a href="{% url 'add_room' %}" class="nav-link">Add Room</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'view_room' %}" class="nav-link">View Rooms</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'Active_room' %}" class="nav-link"
+                  >Active Rooms</a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'room_allocation' %}" class="nav-link"
+                  >Room Allocation</a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'view_room_allocation' %}" class="nav-link"
+                  >View Rooms Allocation</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            role="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarStaff"
+            aria-expanded="false"
+          >
+            <i class="ri-team-line"></i>
+            <span>Staff</span>
+          </a>
+
+          <div class="collapse menu-dropdown" id="sidebarStaff">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a href="{% url 'add_staff' %}" class="nav-link">Add Staff</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'view_staff' %}" class="nav-link">View Staff</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            role="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarMess"
+            aria-expanded="false"
+            aria-controls="sidebarMess"
+          >
+            <i class="ri-restaurant-line"></i>
+            <span>Mess Menu</span>
+          </a>
+
+          <div class="collapse menu-dropdown" id="sidebarMess">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a href="{% url 'add_mess' %}" class="nav-link">Add Menu</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'view_mess' %}" class="nav-link">View Menu</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'view_custom_mess' %}" class="nav-link"
+                  >View Custom Menu</a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'feepayment' %}" class="nav-link">feepayment</a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'viewfeepayment' %}" class="nav-link"
+                  >View feepayment</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            role="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarSubscription"
+            aria-expanded="false"
+            aria-controls="sidebarSubscription"
+          >
+            <i class="ri-bank-card-line"></i>
+            <span>Subscription</span>
+          </a>
+
+          <div class="collapse menu-dropdown" id="sidebarSubscription">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a href="{% url 'pricing_page' %}" class="nav-link"
+                  >View Plans</a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'active_subscription' %}" class="nav-link"
+                  >My Subscriptions</a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'all_active_subscription' %}" class="nav-link"
+                  >All Records</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            role="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarCategory"
+            aria-expanded="false"
+            aria-controls="sidebarCategory"
+          >
+            <i class="ri-stack-line"></i> <span>Complaint Category</span>
+          </a>
+
+          <div class="collapse menu-dropdown" id="sidebarCategory">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a href="{% url 'AddComplaintCategory' %}" class="nav-link"
+                  >Add Category</a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'ViewComplaintCategory' %}" class="nav-link"
+                  >View Categories</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            role="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarComplaint"
+            aria-expanded="false"
+            aria-controls="sidebarComplaint"
+          >
+            <i class="ri-customer-service-2-line"></i>
+            <span>Complaint</span>
+          </a>
+
+          <div class="collapse menu-dropdown" id="sidebarComplaint">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a href="{% url 'add_complaint' %}" class="nav-link"
+                  >Register Complaint</a
+                >
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'my_complaints' %}" class="nav-link"
+                  >All Complaints</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link menu-link"
+            role="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#sidebarScrapper"
+            aria-expanded="false"
+            aria-controls="sidebarScrapper"
+          >
+            <i class="ri-customer-service-2-line"></i>
+            <span>Scrapper</span>
+          </a>
+
+          <div class="collapse menu-dropdown" id="sidebarScrapper">
+            <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                <a href="{% url 'Scrapper' %}" class="nav-link">Scrapper</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- Sidebar -->
+  </div>
+
+  <div class="sidebar-background"></div>
+</div>

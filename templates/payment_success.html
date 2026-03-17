@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Successful</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .success-card { max-width: 500px; margin: 80px auto; border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .checkmark { font-size: 80px; color: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card success-card text-center p-5">
+            <div class="checkmark">✔</div>
+            <h2 class="fw-bold mt-3">Payment Successful!</h2>
+            <p class="text-muted">Shukriya! Aapki hostel fee jama ho chuki hai.</p>
+            
+            <hr>
+            
+            <div class="text-start mb-4">
+                <p><strong>Student:</strong> {{ payment.student.name }}</p>
+                <p><strong>Amount Paid:</strong> Rs. {{ payment.amount }}</p>
+                <p><strong>Status:</strong> <span class="badge bg-success">Paid</span></p>
+            </div>
+
+            <a href="/index_file/" class="btn btn-primary btn-lg w-100">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

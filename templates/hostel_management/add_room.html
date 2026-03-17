@@ -1,0 +1,197 @@
+{% include 'header.html' %} {% include 'sidebar.html' %}
+
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+      <!-- Page Title -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div
+            class="page-title-box d-sm-flex align-items-center justify-content-between bg-light p-3 rounded"
+          >
+            <h4 class="mb-0">Add New Room</h4>
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+              <li class="breadcrumb-item active">Add Room</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Room Form -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card shadow-sm border-0">
+            <div class="card-header text-white bg-success">
+              <h5 class="mb-0" style="text-align: center">Room Information</h5>
+            </div>
+
+            <div class="card-body">
+              <form method="POST" id="form_room">
+                {% csrf_token %}
+                <div class="row g-3">
+                  <!-- Hostel Name -->
+                  <div class="col-md-4">
+                    <label class="form-label">Hostel Name</label>
+                    <select name="hostel_name" class="form-control" required>
+                      <option value="">-- Select Hostel --</option>
+                      <option value="boys">Boys Hostel</option>
+                      <option value="girls">Girls Hostel</option>
+                    </select>
+                  </div>
+
+                  <!-- Room Number -->
+                  <div class="col-md-4">
+                    <label class="form-label">Room Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="room_number"
+                      placeholder="101, A-12"
+                      required
+                    />
+                  </div>
+
+                  <!-- Room Type -->
+                  <div class="col-md-4">
+                    <label class="form-label">Room Type</label>
+                    <select
+                      name="room_type"
+                      class="form-control"
+                      id="room_type"
+                      required
+                    >
+                      <option value="">-- Select Type --</option>
+                      <option value="single">Single</option>
+                      <option value="double">Double</option>
+                      <option value="triple">Triple</option>
+                    </select>
+                  </div>
+
+                  <!-- Capacity -->
+                  <div class="col-md-4">
+                    <label class="form-label">Capacity</label>
+                    <input
+                      type="number"
+                      id="capacity"
+                      class="form-control"
+                      name="capacity"
+                      min="1"
+                      placeholder="Enter number of students"
+                      required
+                      readonly
+                    />
+                  </div>
+
+                  <!-- Floor -->
+                  <div class="col-md-4">
+                    <label class="form-label">Floor</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="floor"
+                      min="0"
+                      placeholder="Enter floor number"
+                      required
+                    />
+                  </div>
+
+                  <!-- Is Active -->
+                  <div class="col-md-4">
+                    <label class="form-label">Is Active</label>
+                    <select name="is_active" class="form-control">
+                      <option value="True" selected>Active ✅</option>
+                      <option value="False">Inactive ❌</option>
+                    </select>
+                  </div>
+
+                  <!-- Submit -->
+                  <div class="col-12 mt-3">
+                    <button
+                      type="submit"
+                      id="add_room"
+                      class="btn btn-success btn-lg w-100"
+                    >
+                      Add Room
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Form -->
+    </div>
+  </div>
+
+  {% include 'footer.html' %}
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  $(document).ready(function () {
+    $(document).on("change", "#room_type", function () {
+      var typeof_room = $(this).val();
+      var capacity_id = $("#capacity");
+      if (typeof_room == "single") {
+        capacity_id.val(1);
+      } else if (typeof_room == "double") {
+        capacity_id.val(2);
+      } else if (typeof_room == "triple") {
+        capacity_id.val(3);
+      } else {
+        capacity_id.val("");
+      }
+    });
+  });
+</script>
+<script>
+$(document).ready(function () {
+  $(document).on("click", "#add_room", function (e) {
+    e.preventDefault();
+    var form = document.getElementById("form_room");
+    var data = new FormData(form);
+
+    $.ajax({
+      url: "{% url 'insert_room' %}",
+      method: "POST",
+      data: data,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        if (response.status === "success") {
+          Swal.fire({
+            title: "Success!",
+            text: response.message,
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false
+          });
+
+          // Reset form
+          $("#form_room")[0].reset();
+          $("#capacity").val(""); 
+        } else {
+          // Error popup
+          Swal.fire({
+            title: "Error!",
+            text: response.message,
+            icon: "error",
+            confirmButtonText: "OK"
+          });
+        }
+      },
+      error: function (error) {
+        console.log(error);
+      }
+    });
+  });
+});
+</script>
+
