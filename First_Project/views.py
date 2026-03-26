@@ -6,6 +6,12 @@ from django.core.mail import EmailMessage
 from django.core.mail import send_mail
 from django.shortcuts import render
 from authentication.models import SignUp
+from authentication.models import PasswordResetOTP
+from django.utils import timezone
+from datetime import timedelta  
+import random 
+
+
 from students.models import Student
 from library.models import Book
 from hostel_management.models import Room
@@ -106,6 +112,118 @@ def logout(request):
 
     request.session.flush()
     return redirect("sign_in")
+
+def forget_password(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+
+        try:
+            user = SignUp.objects.get(email=email)
+        except SignUp.DoesNotExist:
+            return JsonResponse({
+                'status' : 'error',
+                'message': 'This email is not registered.'
+            })
+
+        otp_code = str(random.randint(100000, 999999))
+
+        PasswordResetOTP.objects.filter(user=user).delete()
+
+        PasswordResetOTP.objects.create(
+            user       = user,
+            otp_code   = otp_code,
+            expires_at = timezone.now() + timedelta(minutes=10)
+        )
+
+        send_mail(
+            subject        = 'Password Reset OTP',
+            message        = f'Your OTP is: {otp_code}',
+            from_email     = None,
+            recipient_list = [email],
+            fail_silently  = False,
+        )
+
+        # Session mein email save karo
+        request.session['reset_email'] = email
+
+        return JsonResponse({
+            'status' : 'success',
+            'message': 'OTP sent! Please check your email.'
+        })
+
+    return render(request, 'forget_password.html')
+
+
+
+
+def otp_verify(request):
+    if request.method == "POST":
+        otp = request.POST.get('otp')
+
+        if not otp:
+            return JsonResponse({
+                'status' : 'error',
+                'message': 'OTP daalo'
+            })
+
+        try:
+            # OTP database mein dhundo
+            match_otp = PasswordResetOTP.objects.get(otp_code=otp)
+
+        except PasswordResetOTP.DoesNotExist:
+            return JsonResponse({
+                'status' : 'error',
+                'message': 'Galat OTP hai'
+            })
+
+        # Expire check karo
+        if match_otp.is_expired():
+            return JsonResponse({
+                'status' : 'error',
+                'message': 'OTP expire ho gaya, dobara bhejo'
+            })
+
+        # Pehle use hua check karo
+        if match_otp.is_used:
+            return JsonResponse({
+                'status' : 'error',
+                'message': 'OTP already use ho chuka hai'
+            })
+
+        # OTP sahi hai — mark as used
+        match_otp.is_used = True
+        match_otp.save()
+
+        # Session mein save karo reset password ke liye
+        request.session['otp_verified'] = True
+
+        return JsonResponse({
+            'status' : 'success',
+            'message': 'OTP verified!'
+        })
+
+    return render(request, 'otp_verify.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def index_file(request):

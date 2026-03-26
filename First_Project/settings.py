@@ -126,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Karachi'
 
 USE_I18N = True
 
@@ -162,12 +162,13 @@ import ssl
 # settings.py
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587               # SSL ke liye fix hai
-EMAIL_USE_TLS = True          
-EMAIL_USE_SSL = True           
+EMAIL_PORT          = 465            # SSL ke liye fix hai
+EMAIL_USE_TLS       = False
+EMAIL_USE_SSL       = True                
 EMAIL_HOST_USER = 'rehmanatif682@gmail.com'
 EMAIL_HOST_PASSWORD = 'xbjp smjh ravy yvum'  # Isay aik baar naya bana lein agar doubt ho
-EMAIL_SSL_CONTEXT = ssl.create_default_context()
+DEFAULT_FROM_EMAIL  = 'rehmanatif682@gmail.com'
+
 
 
 
